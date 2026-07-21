@@ -1,13 +1,5 @@
-interface BadgeProps {
-  children: React.ReactNode;
-}
-
-export default function Badge({
-  children,
-}: BadgeProps) {
-  return (
-    <span className="rounded-full bg-blue-600/20 px-3 py-1 text-xs font-medium text-blue-400">
-      {children}
-    </span>
-  );
-}
+import { cva, type VariantProps } from "class-variance-authority";
+import type { HTMLAttributes } from "react";
+import { cn } from "@/lib/utils";
+const badgeVariants = cva("inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors", { variants: { variant: { default: "border-transparent bg-primary text-primary-foreground", secondary: "border-transparent bg-secondary text-secondary-foreground", outline: "text-foreground", destructive: "border-transparent bg-destructive text-white" } }, defaultVariants: { variant: "default" } });
+export function Badge({ className, variant, ...props }: HTMLAttributes<HTMLDivElement> & VariantProps<typeof badgeVariants>) { return <div className={cn(badgeVariants({ variant }), className)} {...props} />; }

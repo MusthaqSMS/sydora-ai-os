@@ -1,13 +1,4 @@
-export default function HomePage() {
-  return (
-    <main className="min-h-screen bg-[#0A0A0A] text-white flex items-center justify-center">
-      <div className="text-center">
-        <h1 className="text-6xl font-bold">Sydora AI OS</h1>
-
-        <p className="mt-4 text-xl text-gray-400">
-          Enterprise AI Marketing Operating System
-        </p>
-      </div>
-    </main>
-  );
-}
+import Link from "next/link";
+import { PublicLayout } from "@/components/layout/public-layout";
+import { siteConfig } from "@/lib/constants/site";
+export default function HomePage() { return <PublicLayout><section className="max-w-2xl"><p className="text-sm font-medium text-muted-foreground">Platform foundation</p><h1 className="mt-3 text-4xl font-semibold tracking-tight sm:text-5xl">{siteConfig.name}</h1><p className="mt-5 text-lg text-muted-foreground">A secure, scalable foundation for the next generation of Sydora products.</p><div className="mt-8"><Link className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90" href="/login">Sign in</Link></div></section></PublicLayout>; }

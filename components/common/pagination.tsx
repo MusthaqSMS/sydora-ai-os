@@ -1,0 +1,3 @@
+"use client";
+import { Button } from "@/components/ui/button";
+export function Pagination({ page, pageCount, onPageChange }: { page: number; pageCount: number; onPageChange: (page: number) => void }) { return <nav aria-label="Pagination" className="flex items-center justify-end gap-3"><Button disabled={page <= 1} onClick={() => onPageChange(page - 1)} size="sm" variant="outline">Previous</Button><span className="text-sm text-muted-foreground">Page {page} of {pageCount}</span><Button disabled={page >= pageCount} onClick={() => onPageChange(page + 1)} size="sm" variant="outline">Next</Button></nav>; }
