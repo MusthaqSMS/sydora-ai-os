@@ -54,3 +54,9 @@ export async function softDeleteOrganization(organizationId: string): Promise<vo
   const { error } = await supabase.from("organizations").update({ deleted_at: new Date().toISOString() }).eq("id", organizationId);
   if (error) throw error;
 }
+
+export async function completeOrganizationOnboarding(organizationId: string): Promise<void> {
+  const supabase = await createClient();
+  const { error } = await supabase.from("organizations").update({ onboarding_step: 4, onboarding_completed_at: new Date().toISOString() }).eq("id", organizationId);
+  if (error) throw error;
+}

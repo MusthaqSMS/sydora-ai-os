@@ -25,3 +25,9 @@ export async function deleteTask(taskId: EntityId): Promise<void> {
   const { error } = await supabase.from("tasks").update({ deleted_at: new Date().toISOString() }).eq("id", taskId);
   if (error) throw new Error(error.message);
 }
+
+export async function completeTask(taskId: EntityId): Promise<void> {
+  const supabase = await createClient();
+  const { error } = await supabase.from("tasks").update({ status: "done" }).eq("id", taskId);
+  if (error) throw new Error(error.message);
+}

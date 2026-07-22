@@ -10,7 +10,7 @@ import { profileSchema } from "@/schemas/profile";
 import { invitationSchema, memberStatusSchema, roleSchema } from "@/schemas/rbac";
 import { createCustomRole } from "@/services/rbac.service";
 import { acceptInvitation, createInvitation, updateMemberStatus } from "@/services/team.service";
-import { createOrganization, softDeleteOrganization, switchOrganization, updateOrganization } from "@/services/organization.service";
+import { completeOrganizationOnboarding, createOrganization, softDeleteOrganization, switchOrganization, updateOrganization } from "@/services/organization.service";
 import { updateProfile } from "@/services/profile.service";
 
 function csv(value: FormDataEntryValue | null) {
@@ -50,6 +50,7 @@ export async function completeOnboardingAction(formData: FormData) {
   });
   const organization = await createOrganization({ ...parsed.organization, businessGoals: parsed.businessGoals });
   await updateOrganization(organization.id, { ...parsed.organization, businessGoals: parsed.businessGoals });
+  await completeOrganizationOnboarding(organization.id);
   revalidatePath("/dashboard");
   redirect("/dashboard");
 }
