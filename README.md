@@ -17,3 +17,9 @@ Phase 1 establishes the production foundation for the application. It intentiona
 3. Run `npm install`, then `npm run dev`.
 
 Validate the codebase with `npm run lint` and `npm run build`.
+
+## Database development
+
+The tenant-aware Supabase schema is versioned in `supabase/migrations`, with development-only data in `supabase/seed.sql`.
+
+Run `npx supabase start` followed by `npx supabase db reset --local` to apply the migration and seed a local instance. Docker Desktop is required for the local Supabase runtime.
