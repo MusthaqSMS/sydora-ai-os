@@ -15,9 +15,14 @@ export async function createClient() {
         getAll() {
           return cookieStore.getAll();
         },
-        setAll() {
-          // Intentionally empty.
-          // Middleware is responsible for writing cookies.
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value, options }) => {
+            try {
+              cookieStore.set(name, value, options);
+            } catch {
+              // Server Components cannot mutate cookies; Proxy refreshes them for read-only renders.
+            }
+          });
         },
       },
     }

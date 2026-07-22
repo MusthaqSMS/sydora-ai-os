@@ -27,7 +27,12 @@ export async function updateSession(request: NextRequest) {
   );
 
   const { data: { user } } = await supabase.auth.getUser();
-  if (request.nextUrl.pathname.startsWith(dashboardPrefix) && !user) {
+  const protectedPath = request.nextUrl.pathname.startsWith(dashboardPrefix)
+    || request.nextUrl.pathname.startsWith("/settings")
+    || request.nextUrl.pathname.startsWith("/onboarding")
+    || request.nextUrl.pathname.startsWith("/invitations/accept");
+
+  if (protectedPath && !user) {
     const loginUrl = new URL("/login", request.url);
     loginUrl.searchParams.set("next", request.nextUrl.pathname);
     return NextResponse.redirect(loginUrl);
