@@ -21,6 +21,30 @@ export interface Client extends TenantRecord {
   lifecycle_status: "active" | "inactive" | "archived";
 }
 
+export interface ClientContact extends TenantRecord {
+  client_id: EntityId;
+  full_name: string;
+  email: string | null;
+  phone: string | null;
+  job_title: string | null;
+  contact_type: "primary" | "billing" | "marketing" | "technical" | "decision_maker" | "other";
+  is_primary: boolean;
+}
+
+export interface LeadNote extends TimestampedRecord {
+  organization_id: EntityId;
+  lead_id: EntityId;
+  body: string;
+}
+
+export interface LeadActivity extends TimestampedRecord {
+  organization_id: EntityId;
+  lead_id: EntityId;
+  activity_type: string;
+  occurred_at: string;
+  metadata: Json;
+}
+
 export interface Lead extends TenantRecord {
   client_id: EntityId | null;
   source_id: EntityId | null;
@@ -63,6 +87,16 @@ export interface SeoProject extends TenantRecord {
   project_id: EntityId | null;
   website_url: string;
   status: "planned" | "active" | "on_hold" | "completed" | "cancelled";
+}
+
+export interface Document extends TenantRecord {
+  client_id: EntityId | null;
+  project_id: EntityId | null;
+  lead_id: EntityId | null;
+  name: string;
+  storage_path: string;
+  mime_type: string | null;
+  size_bytes: number | null;
 }
 
 export interface Profile extends TimestampedRecord {
@@ -151,6 +185,7 @@ export interface Database {
   public: {
     Tables: {
       clients: DatabaseTable<Client>;
+      client_contacts: DatabaseTable<ClientContact>;
       leads: DatabaseTable<Lead>;
       projects: DatabaseTable<Project>;
       tasks: DatabaseTable<Task>;
@@ -165,7 +200,33 @@ export interface Database {
       organization_invitations: DatabaseTable<OrganizationInvitation>;
       security_events: PlainTable<SecurityEvent>;
       rate_limit_buckets: GenericTable;
-      client_contacts: GenericTable; lead_sources: GenericTable; lead_statuses: GenericTable; lead_notes: GenericTable; lead_activities: GenericTable; task_comments: GenericTable; calendar_events: GenericTable; invoices: GenericTable; payments: GenericTable; quotes: GenericTable; documents: GenericTable; google_ads_campaigns: GenericTable; meta_campaigns: GenericTable; seo_keywords: GenericTable; keyword_rankings: GenericTable; backlinks: GenericTable; competitors: GenericTable; website_audits: GenericTable; ai_generations: GenericTable; prompt_library: GenericTable; knowledge_base: GenericTable; notifications: GenericTable; activity_logs: GenericTable; integrations: GenericTable; api_keys: GenericTable; settings: GenericTable; usage_tracking: GenericTable; subscription_plans: GenericTable;
+      lead_sources: GenericTable;
+      lead_statuses: GenericTable;
+      lead_notes: DatabaseTable<LeadNote>;
+      lead_activities: DatabaseTable<LeadActivity>;
+      task_comments: GenericTable;
+      calendar_events: GenericTable;
+      invoices: GenericTable;
+      payments: GenericTable;
+      quotes: GenericTable;
+      documents: GenericTable;
+      google_ads_campaigns: GenericTable;
+      meta_campaigns: GenericTable;
+      seo_keywords: GenericTable;
+      keyword_rankings: GenericTable;
+      backlinks: GenericTable;
+      competitors: GenericTable;
+      website_audits: GenericTable;
+      ai_generations: GenericTable;
+      prompt_library: GenericTable;
+      knowledge_base: GenericTable;
+      notifications: GenericTable;
+      activity_logs: GenericTable;
+      integrations: GenericTable;
+      api_keys: GenericTable;
+      settings: GenericTable;
+      usage_tracking: GenericTable;
+      subscription_plans: GenericTable;
     };
     Views: Record<string, never>;
     Functions: {
